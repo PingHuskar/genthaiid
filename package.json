@@ -1,0 +1,39 @@
+{
+  "name": "genthaiid",
+  "version": "1.0.0",
+  "description": "better thaiid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PingHuskar/genthaiid.git"
+  },
+  "keywords": [
+    "thaiid",
+    "thai-id",
+    "thai-id-generator",
+    "thai",
+    "id",
+    "thai id",
+    "nationality",
+    "nationality id",
+    "validation",
+    "validator",
+    "personal id",
+    "PID",
+    "random",
+    "card",
+    "generate",
+    "verify"
+  ],
+  "author": "Chadin Chaipornpisuth",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "operation-strint": "^1.0.3"
+  }
+}
