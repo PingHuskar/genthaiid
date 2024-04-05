@@ -4,6 +4,18 @@ const getRndInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const getLastDigit = (firsttwelvedigits) => {
+  return (
+    (11 -
+      (firsttwelvedigits
+        .split("")
+        .map((i, idx) => parseInt(i) * (13 - idx))
+        .reduce((a, b) => a + b, 0) %
+        11)) %
+    10
+  );
+}
+
 const gen = () => {
   const gen13 = Math.floor(Math.random() * (8 - 1 + 1)) + 1;
   const gen12 = getRndInteger(0, 9);
@@ -17,22 +29,9 @@ const gen = () => {
   const gen4 = getRndInteger(0, 9);
   const gen3 = getRndInteger(0, 9);
   const gen2 = getRndInteger(0, 9);
-  const sum1 =
-    gen13 * 13 +
-    gen12 * 12 +
-    gen11 * 11 +
-    gen10 * 10 +
-    gen9 * 9 +
-    gen8 * 8 +
-    gen7 * 7 +
-    gen6 * 6 +
-    gen5 * 5 +
-    gen4 * 4 +
-    gen3 * 3 +
-    gen2 * 2;
-  const mod11sum1 = sum1 % 11;
-  const gen1 = (11 - mod11sum1) % 10;
-  return `${gen13}${gen12}${gen11}${gen10}${gen9}${gen8}${gen7}${gen6}${gen5}${gen4}${gen3}${gen2}${gen1}`;
+  const first12digits = `${gen13}${gen12}${gen11}${gen10}${gen9}${gen8}${gen7}${gen6}${gen5}${gen4}${gen3}${gen2}`;
+  const gen1 = getLastDigit(first12digits);
+  return `${first12digits}${gen1}`;
 };
 const random = (snum) => {
   const typesnum = typeof snum;
@@ -60,22 +59,38 @@ const verify = (strid, checkfirstdigit = true, checklastdigit = true) => {
     if (!strid || !/\d{13}/.test(strid)) return false
     if (checkfirstdigit && !/[1-8]\d{12}/.test(strid)) return false
     if (checklastdigit) {
-        return (11 -
+        return getLastDigit
             (strid
               .slice(0, 12)
-              .split("")
-              .map((i, idx) => parseInt(i) * (13 - idx))
-              .reduce((a, b) => a + b, 0) %
-              11)) %
-            10 ===
+             ) ===
           parseInt(strid.slice(-1));
     }
     return true
 }
 
+const compeleteid = (strid, checkfirstdigit = true, checklastdigit = true) => {
+  if (!strid || !/.{13}/.test(strid)) return null
+  if (verify(strid)) return strid;
+  const retArray = []
+  const countBlank = (strid.match(/_/g) || []).length;
+  let i = `0`.repeat(countBlank);
+  while (true) {
+    let replaced = strid;
+    for (let j = 0; j < countBlank; j++) {
+      replaced = replaced.replace(`_`, `${i.slice(j, j + 1)}`);
+    }
+    if (verify(replaced, checkfirstdigit, checklastdigit)) retArray.push(replaced)
+    i = op.sum(i, `1`)
+    if (i.length > countBlank) break
+  }
+  return retArray;
+}
+
 module.exports = {
   getRndInteger,
+  getLastDigit,
   gen,
   random,
-  verify
+  verify,
+  compeleteid
 };

@@ -1,6 +1,6 @@
 {
   "name": "genthaiid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "better thaiid",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,6 @@
     "jest": "^29.7.0"
   },
   "dependencies": {
-    "operation-strint": "^1.0.3"
+    "operation-strint": "^1.0.5"
   }
 }
