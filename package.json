@@ -1,10 +1,11 @@
 {
   "name": "genthaiid",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "better thaiid",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -29,11 +30,11 @@
     "verify"
   ],
   "author": "Chadin Chaipornpisuth",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "jest": "^29.7.0"
   },
   "dependencies": {
-    "operation-strint": "^1.0.5"
+    "operation-strint": "^1.0.9"
   }
 }
