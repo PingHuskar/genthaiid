@@ -5,19 +5,16 @@ export default (snum) => {
     const retArr = [];
     switch (typesnum) {
         case `number`:
-            while (snum > 0) {
-                retArr.push(gen());
-                snum--;
-            }
-            return retArr;
+            return new Array(parseInt(snum)).fill(0).map(() => gen());
         case `string`:
-            if (!snumpat.test(snum)) return gen();
+            console.warn(`Consider Use Number as Input`)
+            if (!snumpat.test(snum)) return [gen()];
             while (snum != "0") {
                 retArr.push(gen());
                 snum = minus(snum, `1`);
             }
             return retArr;
         default:
-            return gen();
+            return [gen()];
     }
 };
