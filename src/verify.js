@@ -1,7 +1,9 @@
 import getLastDigit from "./getLastDigit";
-const verify = (strid, checkfirstdigit = true, checklastdigit = true) => {
+import thaiIdRegex from "./thaiIdRegex"
+
+export default (strid, checkfirstdigit = true, checklastdigit = true) => {
     if (!strid || !/\d{13}/.test(strid)) return false
-    if (checkfirstdigit && !/[1-8]\d{12}/.test(strid)) return false
+    if (checkfirstdigit && !thaiIdRegex.test(strid)) return false
     if (checklastdigit) {
         return getLastDigit
             (strid
@@ -11,4 +13,3 @@ const verify = (strid, checkfirstdigit = true, checklastdigit = true) => {
     }
     return true
 }
-export default verify;

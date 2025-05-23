@@ -1,4 +1,4 @@
-const getLastDigit = (firsttwelvedigits) => {
+export default (firsttwelvedigits) => {
     return (
         (11 -
             (firsttwelvedigits
@@ -9,5 +9,3 @@ const getLastDigit = (firsttwelvedigits) => {
         10
     );
 }
-
-export default getLastDigit;

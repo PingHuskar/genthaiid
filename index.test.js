@@ -1,4 +1,4 @@
-import gen, { getLastDigit, getRndInteger } from ".";
+import gen, { getLastDigit, getRndInteger, thaiIdRegex } from ".";
 test(`getLastDigit`, () => {
     expect(getLastDigit(`294479707808`)).toBe(0);
     expect(getLastDigit(`104367370319`)).toBe(4);
@@ -10,6 +10,7 @@ test("gen length", () => {
     const results = Array.from({ length: x }, () => gen());
     results.forEach(result => {
         expect(result).toHaveLength(13);
+        expect(result).toMatch(thaiIdRegex);
     });
 })
 test("getRndInteger length", () => {

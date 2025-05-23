@@ -1,6 +1,6 @@
 import { snumpat, minus } from "operation-strint";
 import gen from "./gen"
-const random = (snum) => {
+export default (snum) => {
     const typesnum = typeof snum;
     const retArr = [];
     switch (typesnum) {
@@ -21,4 +21,3 @@ const random = (snum) => {
             return gen();
     }
 };
-export default random;

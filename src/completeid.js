@@ -1,7 +1,7 @@
 import verify from "./verify";
 import { sum } from "operation-strint";
-const completeid = (strid, checkfirstdigit = true, checklastdigit = true) => {
-    if (!strid || !/.{13}/.test(strid)) return null
+export default (strid, checkfirstdigit = true, checklastdigit = true) => {
+    if (!strid || !/\d{13}/.test(strid)) return undefined
     if (verify(strid)) return strid;
     const retArray = []
     const countBlank = (strid.match(/_/g) || []).length;
@@ -17,4 +17,3 @@ const completeid = (strid, checkfirstdigit = true, checklastdigit = true) => {
     }
     return retArray;
 }
-export default completeid;

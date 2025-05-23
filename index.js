@@ -1,4 +1,4 @@
-import { getRndInteger, getLastDigit, gen, random, verify, completeid } from "./src"
+import { getRndInteger, getLastDigit, gen, random, verify, completeid, thaiIdRegex } from "./src"
 
 export default gen;
 export {
@@ -7,5 +7,6 @@ export {
   gen,
   random,
   verify,
-  completeid
+  completeid,
+  thaiIdRegex,
 };
