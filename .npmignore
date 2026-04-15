@@ -1,0 +1,7 @@
+.git
+.gitignore
+.DS_Store
+node_modules
+index.test.js
+package-lock.json
+coverage
