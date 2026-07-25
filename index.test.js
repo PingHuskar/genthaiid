@@ -1,4 +1,4 @@
-import gen, { random, getLastDigit, getRndInteger, thaiIdRegex } from ".";
+import gen, { random, getLastDigit, getRndInteger, thaiIdRegex, verify, randomCompleteID } from ".";
 
 test("random", () => {
     expect(random(50)).toHaveLength(50);
@@ -30,10 +30,26 @@ test("gen length", () => {
 
 test("getRndInteger length", () => {
     const x = 100;
-    const [min, max] = [0,9]
+    const [min, max] = [0, 9]
     const results = Array.from({ length: x }, () => getRndInteger(min, max));
     results.forEach(result => {
         expect(result).toBeGreaterThanOrEqual(min);
         expect(result).toBeLessThanOrEqual(max);
     });
+})
+
+test("randomCompleteID generates valid Thai IDs", () => {
+    const x = 1000;
+    const results = Array.from({ length: x }, () => randomCompleteID("1100"));
+
+    results.forEach(result => {
+        expect(result).toHaveLength(13);
+        expect(verify(result, true, true)).toBe(true);
+    });
+})
+
+test("randomCompleteID requires at least 4 starting digits", () => {
+    expect(randomCompleteID("110")).toBeUndefined();
+    expect(randomCompleteID("abcd")).toBeUndefined();
+    expect(randomCompleteID("9100")).toBeUndefined();
 })

@@ -17,6 +17,7 @@ import gen, {
   random,
   verify,
   completeid,
+  randomCompleteID,
   getLastDigit,
   getRndInteger,
   thaiIdRegex,
@@ -29,6 +30,7 @@ console.log(verify(id)); // true
 console.log(thaiIdRegex.test(id)); // true
 
 console.log(random(3)); // ["...", "...", "..."]
+console.log(randomCompleteID("1100")); // "1100XXXXXXXX"
 console.log(getLastDigit("110170020345")); // checksum digit
 console.log(getRndInteger(0, 9)); // random integer between 0 and 9
 
@@ -56,6 +58,25 @@ Examples:
 random(2);     // ["...", "..."]
 random("2");  // ["...", "..."]
 random(null);  // ["..."]
+```
+
+### `randomCompleteID(startDigits)`
+
+Generates a random 13-digit Thai ID that starts with the provided digits.
+
+- `startDigits` must be between 4 and 12 digits.
+- The first digit must be between `1` and `8` (Thai ID rule).
+- Remaining digits are randomly generated.
+- Returns a valid 13-digit Thai ID string that always passes `verify()`.
+- Returns `undefined` if the input is invalid (fewer than 4 digits, first digit is `0` or `9`, or contains non-digits).
+
+Examples:
+
+```js
+randomCompleteID("1100");      // "1100XXXXXXXX7" (random fill)
+randomCompleteID("1234567");   // "1234567XXXXX2" (random fill)
+randomCompleteID("110");       // undefined (too few digits)
+randomCompleteID("9100");      // undefined (first digit must be 1-8)
 ```
 
 ### `verify(id, checkfirstdigit = true, checklastdigit = true)`
