@@ -10,6 +10,29 @@ The package is ESM-only and exports the generator as the default export.
 npm install genthaiid
 ```
 
+### Browser (vanilla JS)
+
+No bundler needed. Load the prebuilt script and use the global `genthaiid`:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/genthaiid@2.1.0/dist/genthaiid.min.js"></script>
+<script>
+  const id = genthaiid.gen2({ province: "Bangkok" });
+  console.log(id, genthaiid.verify(id));
+  console.log(genthaiid.getDescription(id).province.th); // "กรุงเทพมหานคร"
+</script>
+```
+
+The default export is available as `genthaiid.default` (same as `genthaiid.gen`).
+
+To build the files yourself:
+
+```bash
+npm run build
+```
+
+This writes `dist/genthaiid.js` and `dist/genthaiid.min.js` (an IIFE bundle that includes the `operation-strint` dependency).
+
 ## Usage
 
 ```js
