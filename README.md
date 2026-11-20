@@ -21,6 +21,7 @@ import gen, {
   getLastDigit,
   getRndInteger,
   thaiIdRegex,
+  getDescription,
 } from "genthaiid";
 
 const id = gen();
@@ -120,6 +121,39 @@ Regular expression for the first-digit rule:
 ```js
 /^[1-8]\d{12}$/
 ```
+
+### `getDescription(id)`
+
+Breaks a 13-digit Thai ID into its parts and explains what each part means. Dashes and spaces are ignored. Returns `undefined` if the input is not 13 digits.
+
+```js
+getDescription("1-1017-00203-45-0");
+// {
+//   id: "1101700203450",
+//   formatted: "1-1017-00203-45-0",
+//   valid: true,
+//   personType: { code: "1", th: "คนสัญชาติไทยที่เกิดตั้งแต่วันที่ 1 ม.ค. 2527 ...", en: "Thai national born on or after 1 Jan 1984, ..." },
+//   province: { code: "10", th: "กรุงเทพมหานคร", en: "Bangkok" },
+//   registrationOffice: "1017", // digits 2-5
+//   district: "17",             // digits 4-5
+//   group: "00203",             // digits 6-10
+//   sequence: "45",             // digits 11-12
+//   checkDigit: "0"             // digit 13
+// }
+```
+
+| Digits | Meaning |
+|---|---|
+| 1 | Person type (`1`-`8`, `0`; `00` = migrant worker) |
+| 2-3 | Province where the number was issued |
+| 4-5 | District / khet / municipality |
+| 6-10 | Group, or birth certificate book number |
+| 11-12 | Sequence within the group, or birth certificate number |
+| 13 | Check digit |
+
+`personType` and `province` have `th`/`en` set to `null` when the code is not recognised. `valid` is the result of `verify(id)`.
+
+References: [Wongnai](https://www.wongnai.com/articles/id-number-meaning), [Jobs Worker Service](https://www.jobsworkerservice.com/thai-id-number-checker/).
 
 ## TypeScript
 

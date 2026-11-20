@@ -6,6 +6,7 @@ import verify from "./verify";
 import completeid from "./completeid";
 import thaiIdRegex from "./thaiIdRegex";
 import randomCompleteID from "./randomCompleteID";
+import getDescription from "./getDescription";
 
 export {
     getRndInteger,
@@ -16,4 +17,5 @@ export {
     completeid,
     randomCompleteID,
     thaiIdRegex,
+    getDescription,
 };
