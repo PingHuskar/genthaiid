@@ -1,4 +1,4 @@
-import gen, { random, getLastDigit, getRndInteger, thaiIdRegex, verify, randomCompleteID, getDescription } from ".";
+import gen, { random, getLastDigit, getRndInteger, thaiIdRegex, verify, randomCompleteID, getDescription, gen2, completeid } from "./index.js";
 
 test("random", () => {
     expect(random(50)).toHaveLength(50);
@@ -79,4 +79,52 @@ test("getDescription", () => {
     for (let i = 0; i < 100; i++) {
         expect(getDescription(gen()).valid).toBe(true);
     }
+})
+
+test("gen2", () => {
+    for (let i = 0; i < 1000; i++) {
+        const id = gen2();
+        expect(id).toMatch(thaiIdRegex);
+        expect(verify(id)).toBe(true);
+        expect(getDescription(id).province.en).not.toBeNull();
+    }
+
+    expect(gen2({ personType: 3 })[0]).toBe("3");
+    expect(gen2({ personType: "8" })[0]).toBe("8");
+    expect(gen2({ province: "10" }).slice(1, 3)).toBe("10");
+    expect(gen2({ province: "chiang mai" }).slice(1, 3)).toBe("50");
+    expect(gen2({ province: "ภูเก็ต" }).slice(1, 3)).toBe("83");
+
+    const d = getDescription(gen2({ personType: 1, province: "Bangkok" }));
+    expect(d.valid).toBe(true);
+    expect(d.personType.code).toBe("1");
+    expect(d.province.en).toBe("Bangkok");
+
+    expect(gen2({ personType: 0 })).toBeUndefined();
+    expect(gen2({ personType: 9 })).toBeUndefined();
+    expect(gen2({ personType: "12" })).toBeUndefined();
+    expect(gen2({ province: "99" })).toBeUndefined();
+    expect(gen2({ province: "Atlantis" })).toBeUndefined();
+})
+
+test("completeid", () => {
+    expect(completeid("11017002034_5")).toEqual(["1101700203425"]);
+    expect(verify("1101700203425")).toBe(true);
+    expect(completeid("110170020345_")).toEqual(["1101700203450"]);
+    expect(completeid("1101700203450")).toBe("1101700203450");
+    expect(completeid("1101700203451")).toEqual([]);
+
+    const two = completeid("11017002034__");
+    expect(two).toHaveLength(10);
+    two.forEach(id => expect(verify(id)).toBe(true));
+
+    expect(completeid("_101700203450")).toEqual(
+        completeid("_101700203450", false).filter(id => /^[1-8]/.test(id))
+    );
+
+    expect(completeid("110170020345")).toBeUndefined();
+    expect(completeid("11017002034_50")).toBeUndefined();
+    expect(completeid("1101700203a45")).toBeUndefined();
+    expect(completeid("")).toBeUndefined();
+    expect(completeid(undefined)).toBeUndefined();
 })

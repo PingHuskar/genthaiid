@@ -38,4 +38,13 @@ export interface ThaiIdDescription {
 
 export declare function getDescription(id: string | number): ThaiIdDescription | undefined;
 
+export interface Gen2Options {
+  /** First digit, 1-8. Random if omitted. */
+  personType?: string | number;
+  /** Province code ("10"), Thai name or English name. Random if omitted. */
+  province?: string;
+}
+
+export declare function gen2(options?: Gen2Options): string | undefined;
+
 export default gen;

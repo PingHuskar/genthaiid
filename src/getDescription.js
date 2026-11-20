@@ -1,8 +1,41 @@
-import verify from "./verify";
+import verify from "./verify.js";
 
-// Person types by first digit.
-// Sources: https://www.wongnai.com/articles/id-number-meaning
-//          https://www.jobsworkerservice.com/thai-id-number-checker/
+/**
+ * @typedef {object} ThaiText
+ * @property {string} th Thai description.
+ * @property {string} en English description.
+ */
+
+/**
+ * @typedef {object} ThaiIdLabel
+ * @property {string} code The code taken from the ID.
+ * @property {?string} th Thai text, or `null` if the code is unknown.
+ * @property {?string} en English text, or `null` if the code is unknown.
+ */
+
+/**
+ * @typedef {object} ThaiIdDescription
+ * @property {string} id The 13 digits with dashes and spaces removed.
+ * @property {string} formatted The ID as `X-XXXX-XXXXX-XX-X`.
+ * @property {boolean} valid Result of `verify(id)`.
+ * @property {ThaiIdLabel} personType Digit 1 (`"00"` for migrant workers).
+ * @property {ThaiIdLabel} province Digits 2-3.
+ * @property {string} registrationOffice Digits 2-5: registration office code.
+ * @property {string} district Digits 4-5: district, khet or municipality.
+ * @property {string} group Digits 6-10: group, or birth certificate book number.
+ * @property {string} sequence Digits 11-12: order within the group, or birth certificate number.
+ * @property {string} checkDigit Digit 13.
+ */
+
+/**
+ * Person types keyed by first digit (`"00"` for the first two digits of
+ * migrant worker IDs).
+ *
+ * Sources: https://www.wongnai.com/articles/id-number-meaning and
+ * https://www.jobsworkerservice.com/thai-id-number-checker/
+ *
+ * @type {Object<string, ThaiText>}
+ */
 export const personTypes = {
     "1": {
         th: "คนสัญชาติไทยที่เกิดตั้งแต่วันที่ 1 ม.ค. 2527 และแจ้งเกิดภายในกำหนดเวลา (15 วัน)",
@@ -46,7 +79,12 @@ export const personTypes = {
     },
 };
 
-// Province codes (digits 2-3), Department of Provincial Administration.
+/**
+ * Province codes (digits 2-3) from the Department of Provincial
+ * Administration, as `[thaiName, englishName]`.
+ *
+ * @type {Object<string, [string, string]>}
+ */
 export const provinces = {
     "10": ["กรุงเทพมหานคร", "Bangkok"],
     "11": ["สมุทรปราการ", "Samut Prakan"],
@@ -129,7 +167,12 @@ export const provinces = {
 
 /**
  * Describe what each part of a 13-digit Thai ID number means.
- * Dashes and spaces are ignored. Returns undefined if the input is not 13 digits.
+ *
+ * @param {string|number} strid The ID. Dashes and spaces are ignored.
+ * @returns {ThaiIdDescription|undefined} The breakdown, or `undefined` if the
+ *   input is not 13 digits.
+ * @example
+ * getDescription("1-1017-00203-45-0").province.en; // "Bangkok"
  */
 export default (strid) => {
     if (strid === undefined || strid === null) return undefined;

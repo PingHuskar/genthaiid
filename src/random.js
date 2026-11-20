@@ -1,5 +1,17 @@
 import { snumpat, minus } from "operation-strint";
-import gen from "./gen"
+import gen from "./gen.js"
+/**
+ * Generate several random Thai IDs with `gen()`.
+ *
+ * @param {number|string} snum How many IDs to generate. A number is truncated
+ *   with `parseInt`. A numeric string is counted down with string arithmetic
+ *   (and logs a warning). Anything else, or a non-numeric string, yields one ID.
+ * @returns {string[]} The generated IDs.
+ * @example
+ * random(3);    // ["...", "...", "..."]
+ * random("2");  // ["...", "..."]
+ * random(null); // ["..."]
+ */
 export default (snum) => {
     const typesnum = typeof snum;
     const retArr = [];

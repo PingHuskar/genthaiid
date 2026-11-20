@@ -22,6 +22,7 @@ import gen, {
   getRndInteger,
   thaiIdRegex,
   getDescription,
+  gen2,
 } from "genthaiid";
 
 const id = gen();
@@ -44,6 +45,22 @@ console.log(completeid("11017002034_5"));
 ### `gen()`
 
 Returns a random 13-digit Thai ID number as a string.
+
+### `gen2(options?)`
+
+Like `gen()`, but digits 2-3 are always a real province code, so `getDescription()` of the result always names a province. You can also pin the person type and/or province.
+
+- `personType`: first digit, `1`-`8`. Random if omitted.
+- `province`: province code (`"10"`), Thai name (`"เชียงใหม่"`) or English name (`"Chiang Mai"`, case-insensitive). Random if omitted.
+- Returns `undefined` if an option is invalid.
+
+```js
+gen2();                                       // "1500XXXXXXXXX"
+gen2({ personType: 3 });                      // "3XXXXXXXXXXXX"
+gen2({ province: "Bangkok" });                // "X10XXXXXXXXXX"
+gen2({ personType: "1", province: "เชียงใหม่" }); // "150XXXXXXXXXX"
+gen2({ personType: 9 });                      // undefined
+```
 
 ### `random(count)`
 
